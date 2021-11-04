@@ -60,7 +60,26 @@ public class FormatController {
         return csv;
     }
 
+    @GetMapping(value = "/CSVFormated/{text}")
+    public String csvFormatedInterpreter(@PathVariable String text) {
 
+        RequestSender requestSender = new RequestSender();
+
+        String response = requestSender.send("http://localhost:8080", text);
+
+        String modifiedResponse ="{\"infile\": ["+response+"]}";
+
+        JSONObject jsonObject = new JSONObject(modifiedResponse);
+
+        JSONArray jsonArray = jsonObject.getJSONArray("infile");
+
+        String csv = CDL.toString(jsonArray);
+
+        String replace =csv.replace("\n","<br>");
+
+
+        return replace;
+    }
 
 
 }
