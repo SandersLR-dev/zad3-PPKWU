@@ -42,7 +42,7 @@ public class FormatController {
         return xml;
     }
 
-    @GetMapping(value = "/CSV/{text}")
+    @GetMapping(value = "/CSV/{text}", produces = {"text/plain"})
     public String csvInterpreter(@PathVariable String text) {
 
         RequestSender requestSender = new RequestSender();
