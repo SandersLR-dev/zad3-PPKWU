@@ -2,6 +2,8 @@ package com.example.zad3ppkwu.Controller;
 
 import com.example.zad3ppkwu.RequestSender;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.CDL;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +41,26 @@ public class FormatController {
 
         return xml;
     }
+
+    @GetMapping(value = "/CSV/{text}")
+    public String csvInterpreter(@PathVariable String text) {
+
+        RequestSender requestSender = new RequestSender();
+
+        String response = requestSender.send("http://localhost:8080", text);
+
+        String modifiedResponse ="{\"infile\": ["+response+"]}";
+
+        JSONObject jsonObject = new JSONObject(modifiedResponse);
+
+        JSONArray jsonArray = jsonObject.getJSONArray("infile");
+
+        String csv = CDL.toString(jsonArray);
+
+        return csv;
+    }
+
+
 
 
 }
