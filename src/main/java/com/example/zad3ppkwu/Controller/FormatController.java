@@ -16,6 +16,30 @@ import java.util.Map;
 @RestController
 public class FormatController {
 
+    @GetMapping(value = "/TXT/{text}", produces = {"text/plain"})
+    public String txtInterpreter(@PathVariable String text) throws IOException {
+
+        RequestSender requestSender = new RequestSender();
+
+        String response = requestSender.send("http://localhost:8080", text);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> json = mapper.readValue(response, Map.class);
+
+
+        String txtformat = "givenString: %s\nlenght: %d\nletter: %d\nlowerCase: %d\nupperCase: %d\nnumber: %d\nwhiteSpace: %d\nspecialChar: %d\n";
+
+        String txt = String.format(txtformat, json.get("givenString")
+                , json.get("length")
+                , json.get("letter")
+                , json.get("lowerCase")
+                , json.get("upperCase")
+                , json.get("number")
+                , json.get("whiteSpace")
+                , json.get("specialChar"));
+
+        return txt;
+    }
 
     @GetMapping("/JSON/{text}")
     public Map jsonInterpreter(@PathVariable String text) throws IOException {
@@ -49,7 +73,7 @@ public class FormatController {
 
         String response = requestSender.send("http://localhost:8080", text);
 
-        String modifiedResponse ="{\"infile\": ["+response+"]}";
+        String modifiedResponse = "{\"infile\": [" + response + "]}";
 
         JSONObject jsonObject = new JSONObject(modifiedResponse);
 
@@ -67,7 +91,7 @@ public class FormatController {
 
         String response = requestSender.send("http://localhost:8080", text);
 
-        String modifiedResponse ="{\"infile\": ["+response+"]}";
+        String modifiedResponse = "{\"infile\": [" + response + "]}";
 
         JSONObject jsonObject = new JSONObject(modifiedResponse);
 
@@ -75,7 +99,7 @@ public class FormatController {
 
         String csv = CDL.toString(jsonArray);
 
-        String replace =csv.replace("\n","<br>");
+        String replace = csv.replace("\n", "<br>");
 
 
         return replace;

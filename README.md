@@ -12,6 +12,16 @@ localhost:8081/CSV/{tutaj wpisujemy text do analizy} - zwracany typ danych to CS
 ```
 
 ## Przykład użycia
+TXT
+
+Wysyłamy request na adres aby otrzymac dane w formacie txt
+localhost:8081/TXT/Test 4545 koniec
+
+Wynik:
+```text
+givenString: Test 4545 koniec\nlenght: 16\nletter: 10\nlowerCase: 9\nupperCase: 1\nnumber: 4\nwhiteSpace: 2\nspecialChar: 0\n
+```
+
 
 JSON
 
